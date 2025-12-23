@@ -1,0 +1,7 @@
+# Antigravity Auto-Permission Tool - Requirements
+# Install with: pip install -r requirements.txt
+
+pyautogui>=0.9.54          # Screen automation
+pygetwindow>=0.0.9         # Window detection
+pytesseract>=0.3.10        # OCR text recognition (optional)
+Pillow>=10.0.0             # Image processing
