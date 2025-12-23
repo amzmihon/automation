@@ -1,0 +1,35 @@
+# Allowed Buttons File
+# ====================
+# 
+# Type button names here (one per line or comma-separated)
+# Only these buttons will be auto-clicked
+# Leave empty (or all commented) to use config.json defaults
+#
+# The tool re-reads this file every 2 seconds, so you can
+# change it while the tool is running!
+#
+# Examples:
+#   confirm              → Only auto-click Confirm buttons
+#   confirm, accept      → Auto-click both Confirm and Accept
+#   alt + enter          → Auto-click Accept buttons
+#   deny                 → Auto-click Deny buttons
+#
+# Available button names (from config.json):
+#   - confirm
+#   - deny
+#   - accept
+#   - reject
+#   - accept_reject_combo
+#   - deny_confirm_combo
+#
+# Aliases you can use:
+#   - alt + enter  or  alt+enter  → accept buttons
+#   - enter                       → confirm buttons
+#   - escape  or  esc             → deny/reject buttons
+#
+# ─────────────────────────────────────────────────────────
+# UNCOMMENT BELOW TO ACTIVATE (remove the # symbol):
+# ─────────────────────────────────────────────────────────
+
+confirm
+alt + enter

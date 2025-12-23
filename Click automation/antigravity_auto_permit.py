@@ -14,6 +14,7 @@ import json
 import os
 import sys
 import time
+import signal
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, Tuple, Dict
@@ -42,8 +43,14 @@ except ImportError:
     HAS_OCR = False
     print("⚠️  OCR modules not found. Install: pip install pytesseract Pillow")
 
-# Paths
-SCRIPT_DIR = Path(__file__).parent
+# Paths - detect if running as PyInstaller exe or as script
+if getattr(sys, 'frozen', False):
+    # Running as compiled exe - use the exe's directory
+    SCRIPT_DIR = Path(sys.executable).parent
+else:
+    # Running as Python script
+    SCRIPT_DIR = Path(__file__).parent
+
 CONFIG_FILE = SCRIPT_DIR / "config.json"
 LOG_FILE = SCRIPT_DIR / "permission_log.txt"
 ASSETS_DIR = SCRIPT_DIR / "assets"
@@ -139,27 +146,30 @@ def play_alert():
     except:
         print("\a")
 
-# ============================================================================
-# CHAT INPUT READER
+# ALLOWED BUTTONS FILE
 # ============================================================================
 
-class ChatInputReader:
+ALLOWED_BUTTONS_FILE = SCRIPT_DIR / "allowed_buttons.txt"
+
+class AllowedButtonsReader:
     """
-    Reads button names from Antigravity chat input field.
-    User types comma-separated button names like: "confirm, alt + enter, accept"
-    Only those buttons will be auto-processed.
+    Reads allowed button names from allowed_buttons.txt file.
+    
+    Simple and reliable approach:
+    - Edit allowed_buttons.txt with button names (one per line or comma-separated)
+    - Tool reads the file and only processes those buttons
+    - Empty file = use config.json defaults
     """
     
     def __init__(self, config: Dict):
         self.config = config
         self.chat_config = config.get("chat_input_mode", {})
         self.enabled = self.chat_config.get("enabled", True)
-        self.window_title = self.chat_config.get("window_title", "Antigravity")
-        self.input_region = self.chat_config.get("input_region", None)
         self.last_read_time = 0
         self.refresh_interval = self.chat_config.get("refresh_interval", 2.0)
         self.cached_buttons = []
         self.fallback_to_config = self.chat_config.get("fallback_to_config", True)
+        self.last_file_content = ""
         
         # Button name aliases (what user might type -> config button names)
         self.aliases = {
@@ -169,59 +179,45 @@ class ChatInputReader:
             "escape": ["deny", "reject"],
             "esc": ["deny", "reject"],
         }
+        
+        # Create the file if it doesn't exist
+        self._ensure_file_exists()
     
-    def find_antigravity_window(self) -> Optional[Tuple[int, int, int, int]]:
-        """Find Antigravity window and return its region (x, y, width, height)."""
+    def _ensure_file_exists(self):
+        """Create allowed_buttons.txt if it doesn't exist."""
+        if not ALLOWED_BUTTONS_FILE.exists():
+            with open(ALLOWED_BUTTONS_FILE, "w", encoding="utf-8") as f:
+                f.write("# Allowed Buttons File\n")
+                f.write("# -------------------\n")
+                f.write("# Type button names here (one per line or comma-separated)\n")
+                f.write("# Only these buttons will be auto-clicked\n")
+                f.write("# Leave empty to use config.json defaults\n")
+                f.write("#\n")
+                f.write("# Examples:\n")
+                f.write("#   confirm\n")
+                f.write("#   confirm, accept\n")
+                f.write("#   alt + enter\n")
+                f.write("#\n")
+                f.write("# Uncomment below to activate:\n")
+                f.write("# confirm\n")
+            log(f"📝 Created: {ALLOWED_BUTTONS_FILE}")
+    
+    def read_file_text(self) -> str:
+        """Read text from allowed_buttons.txt."""
         try:
-            windows = gw.getWindowsWithTitle(self.window_title)
-            if windows:
-                win = windows[0]
-                if win.visible and not win.isMinimized:
-                    return (win.left, win.top, win.width, win.height)
+            if ALLOWED_BUTTONS_FILE.exists():
+                with open(ALLOWED_BUTTONS_FILE, "r", encoding="utf-8") as f:
+                    content = f.read()
+                    # Remove comments and empty lines
+                    lines = []
+                    for line in content.split("\n"):
+                        line = line.strip()
+                        if line and not line.startswith("#"):
+                            lines.append(line)
+                    return ", ".join(lines)
         except Exception as e:
-            log(f"⚠️ Error finding window: {e}")
-        return None
-    
-    def get_chat_input_region(self, window_region: Tuple[int, int, int, int]) -> Tuple[int, int, int, int]:
-        """
-        Estimate the chat input area region.
-        The input box is typically at the bottom of the Antigravity window.
-        """
-        if self.input_region:
-            return tuple(self.input_region)
-        
-        x, y, w, h = window_region
-        # Chat input is usually at the bottom, spanning most of the width
-        # Estimate: bottom 50 pixels, leaving some margins
-        input_x = x + 50
-        input_y = y + h - 70  # 70 pixels from bottom
-        input_w = w - 200     # Leave space for buttons on right
-        input_h = 40          # Input field height
-        
-        return (input_x, input_y, input_w, input_h)
-    
-    def read_chat_text(self) -> str:
-        """Read text from the chat input field using OCR."""
-        if not HAS_OCR:
-            return ""
-        
-        try:
-            window = self.find_antigravity_window()
-            if not window:
-                return ""
-            
-            region = self.get_chat_input_region(window)
-            
-            # Capture screenshot of the input region
-            screenshot = pyautogui.screenshot(region=region)
-            
-            # Use OCR to read text
-            text = pytesseract.image_to_string(screenshot, config='--psm 7')
-            return text.strip()
-            
-        except Exception as e:
-            log(f"⚠️ OCR error: {e}")
-            return ""
+            log(f"⚠️ Error reading file: {e}")
+        return ""
     
     def parse_button_names(self, text: str) -> list:
         """
@@ -257,7 +253,7 @@ class ChatInputReader:
     def get_allowed_buttons(self) -> list:
         """
         Get list of button names that should be auto-processed.
-        Reads from chat if enabled, otherwise returns empty list.
+        Reads from allowed_buttons.txt if enabled.
         """
         if not self.enabled:
             return []  # Disabled - use config.json actions
@@ -265,12 +261,19 @@ class ChatInputReader:
         # Check if we need to refresh
         current_time = time.time()
         if current_time - self.last_read_time > self.refresh_interval:
-            chat_text = self.read_chat_text()
-            self.cached_buttons = self.parse_button_names(chat_text)
-            self.last_read_time = current_time
+            file_text = self.read_file_text()
             
-            if self.cached_buttons:
-                log(f"📝 Chat input detected: {self.cached_buttons}")
+            # Only log if content changed
+            if file_text != self.last_file_content:
+                self.cached_buttons = self.parse_button_names(file_text)
+                self.last_file_content = file_text
+                
+                if self.cached_buttons:
+                    log(f"📝 Allowed buttons: {self.cached_buttons}")
+                else:
+                    log("📝 No buttons in file - using config.json defaults")
+            
+            self.last_read_time = current_time
         
         return self.cached_buttons
     
@@ -278,11 +281,11 @@ class ChatInputReader:
         """
         Determine if a button should be processed.
         
-        If chat_input_mode is enabled:
-          - Only process buttons listed in chat input
-          - If chat is empty and fallback_to_config is True, use config.json action
+        If enabled:
+          - Only process buttons listed in allowed_buttons.txt
+          - If file is empty and fallback_to_config is True, use config.json action
         
-        If chat_input_mode is disabled:
+        If disabled:
           - Use config.json action normally
         """
         if not self.enabled:
@@ -291,7 +294,7 @@ class ChatInputReader:
         allowed = self.get_allowed_buttons()
         
         if not allowed:
-            # Chat is empty
+            # File is empty
             if self.fallback_to_config:
                 return True  # Use config.json action
             else:
@@ -304,6 +307,9 @@ class ChatInputReader:
                 return True
         
         return False  # Not in allowed list - skip
+
+# Alias for backward compatibility
+ChatInputReader = AllowedButtonsReader
 
 # ============================================================================
 # BUTTON FINDER
@@ -323,23 +329,133 @@ class ButtonFinder:
         """Check if cooldown has passed."""
         return (time.time() - self.last_action_time) > self.cooldown
     
+    def pil_template_match(self, screenshot, template_path: Path) -> Optional[Tuple[int, int, int, int]]:
+        """
+        Pure PIL-based template matching. No OpenCV required.
+        Returns (x, y, width, height) if found, None otherwise.
+        """
+        from PIL import Image
+        
+        template = Image.open(template_path).convert('RGB')
+        screen = screenshot.convert('RGB')
+        
+        tw, th = template.size
+        sw, sh = screen.size
+        
+        # Sample template pixels for comparison
+        template_pixels = template.load()
+        screen_pixels = screen.load()
+        
+        # Get template sample points (don't check every pixel for speed)
+        sample_step = max(1, min(tw, th) // 10)
+        sample_points = []
+        for y in range(0, th, sample_step):
+            for x in range(0, tw, sample_step):
+                sample_points.append((x, y, template_pixels[x, y]))
+        
+        threshold = int(len(sample_points) * self.confidence)
+        
+        best_match = None
+        best_matches = 0
+        
+        # Scan screen (with step for speed)
+        step = 3
+        for sy in range(0, sh - th, step):
+            for sx in range(0, sw - tw, step):
+                matches = 0
+                for tx, ty, tpixel in sample_points:
+                    try:
+                        spixel = screen_pixels[sx + tx, sy + ty]
+                        # Check if pixels are similar (within tolerance)
+                        if (abs(tpixel[0] - spixel[0]) < 30 and 
+                            abs(tpixel[1] - spixel[1]) < 30 and 
+                            abs(tpixel[2] - spixel[2]) < 30):
+                            matches += 1
+                    except:
+                        pass
+                
+                if matches >= threshold and matches > best_matches:
+                    best_matches = matches
+                    best_match = (sx, sy, tw, th)
+        
+        return best_match
+    
+    def get_search_region(self) -> Optional[Tuple[int, int, int, int]]:
+        """Get the configured search region (x, y, width, height)."""
+        search_config = self.config.get("settings", {}).get("search_region", {})
+        
+        if search_config.get("enabled", False):
+            x = search_config.get("x", 0)
+            y = search_config.get("y", 0)
+            w = search_config.get("width", 500)
+            h = search_config.get("height", 1080)
+            return (x, y, w, h)
+        
+        # Fallback: Try to find Antigravity window by title
+        try:
+            for title in self.config.get("window_titles", ["Antigravity"]):
+                windows = gw.getWindowsWithTitle(title)
+                for win in windows:
+                    if win.visible and not win.isMinimized:
+                        return (win.left, win.top, win.width, win.height)
+        except Exception:
+            pass
+        return None
+    
     def find_button(self, image_name: str) -> Optional[Tuple[int, int]]:
-        """Find a button by its image file."""
+        """Find a button by its image file, searching only in configured region."""
         image_path = ASSETS_DIR / image_name
         if not image_path.exists():
             return None
         
         try:
-            location = pyautogui.locateCenterOnScreen(
-                str(image_path),
-                confidence=self.confidence
-            )
-            if location:
-                return (location.x, location.y)
-        except Exception:
-            pass
+            # Get configured search region
+            region = self.get_search_region()
+            
+            if region:
+                # Search only in the Antigravity window
+                x, y, w, h = region
+                
+                # First try pyautogui with OpenCV (if available) - with region
+                try:
+                    location = pyautogui.locateCenterOnScreen(
+                        str(image_path),
+                        confidence=self.confidence,
+                        region=region
+                    )
+                    if location:
+                        return (location.x, location.y)
+                except Exception:
+                    pass
+                
+                # Fallback to pure PIL matching - only scan the Antigravity region
+                screenshot = pyautogui.screenshot(region=region)
+                match = self.pil_template_match(screenshot, image_path)
+                if match:
+                    mx, my, mw, mh = match
+                    # Convert region-relative coords to screen coords
+                    return (x + mx + mw // 2, y + my + mh // 2)
+            else:
+                # Fallback: Search full screen if Antigravity window not found
+                try:
+                    location = pyautogui.locateCenterOnScreen(
+                        str(image_path),
+                        confidence=self.confidence
+                    )
+                    if location:
+                        return (location.x, location.y)
+                except Exception:
+                    pass
+                
+                screenshot = pyautogui.screenshot()
+                match = self.pil_template_match(screenshot, image_path)
+                if match:
+                    mx, my, mw, mh = match
+                    return (mx + mw // 2, my + mh // 2)
+                    
+        except Exception as e:
+            log(f"⚠️ Button search error: {e}", self.config)
         return None
-    
     def click_at(self, x: int, y: int, button_name: str) -> bool:
         """Click at coordinates."""
         if not self.can_act():
@@ -445,30 +561,46 @@ class PermissionMonitor:
         self.running = False
         self.stats = {"approved": 0, "denied": 0, "skipped": 0, "clicked": 0}
         self.check_interval = config.get("settings", {}).get("check_interval", 0.5)
+        
+        # Debug screenshot settings (disabled for production)
+        self.debug_screenshots = False
+        self.screenshot_interval = 5.0  # seconds
+        self.last_screenshot_time = 0
+        self.screenshot_dir = SCRIPT_DIR / "tool_ss"
+        self.screenshot_dir.mkdir(exist_ok=True)
+        self.screenshot_count = 0
     
     def start_monitoring(self):
         """Start the monitoring loop."""
         self.running = True
         
+        # Set up signal handler for immediate Ctrl+C response
+        def signal_handler(sig, frame):
+            self.running = False
+            print("\n\n⏹️ Stopping... (Ctrl+C pressed)")
+        
+        signal.signal(signal.SIGINT, signal_handler)
+        
         chat_mode_enabled = self.config.get("chat_input_mode", {}).get("enabled", True)
         
         print("\n" + "=" * 60)
         if chat_mode_enabled:
-            print("  🔍 AUTO-MONITOR MODE (Chat-Controlled)")
+            print("  🔍 AUTO-MONITOR MODE (File-Controlled)")
         else:
             print("  🔍 AUTO-MONITOR MODE (Per-Button Control)")
         print("=" * 60)
         
         if chat_mode_enabled:
-            print("\n  📝 CHAT INPUT MODE ACTIVE!")
+            print("\n  📄 FILE-BASED CONTROL ACTIVE!")
             print("  ─" * 30)
-            print("  Type button names in Antigravity chat to auto-approve:")
-            print("    Examples:")
-            print("      • 'confirm'           → Only auto-approve Confirm buttons")
-            print("      • 'confirm, accept'   → Auto-approve both")
-            print("      • 'alt + enter'       → Auto-approve Accept/Alt+Enter")
-            print("      • Empty chat          → Use config.json defaults")
+            print(f"  Edit: allowed_buttons.txt")
             print("  ─" * 30)
+            print("    • Add button names (one per line or comma-separated)")
+            print("    • Only those buttons will be auto-clicked")
+            print("    • Leave file empty → use config.json defaults")
+            print("    • File is re-read every 2 seconds")
+            print("  ─" * 30)
+            print(f"\n  📂 File location: {ALLOWED_BUTTONS_FILE}")
         else:
             print("\n  Watching for buttons...")
             print("  Each button acts according to config.json")
@@ -486,7 +618,7 @@ class PermissionMonitor:
         print("  " + "-" * 50 + "\n")
         
         if chat_mode_enabled:
-            log("Started CHAT-CONTROLLED monitoring", self.config)
+            log("Started FILE-CONTROLLED monitoring", self.config)
         else:
             log("Started per-button monitoring", self.config)
         
@@ -494,14 +626,14 @@ class PermissionMonitor:
         
         try:
             while self.running:
-                # Check for chat input changes (display status)
+                # Check for file input changes (display status)
                 if chat_mode_enabled:
                     current_buttons = self.chat_reader.get_allowed_buttons()
                     if current_buttons != last_chat_buttons:
                         if current_buttons:
-                            print(f"\n  💬 Active buttons from chat: {', '.join(current_buttons)}")
+                            print(f"\n  📄 Active buttons from file: {', '.join(current_buttons)}")
                         else:
-                            print(f"\n  💬 Chat empty - using config.json defaults")
+                            print(f"\n  📄 File empty - using config.json defaults")
                         last_chat_buttons = current_buttons.copy()
                 
                 # Scan and act
@@ -518,6 +650,67 @@ class PermissionMonitor:
                         self.stats["skipped"] += 1
                     elif "CLICKED" in result:
                         self.stats["clicked"] += 1
+                
+                # Debug screenshots every 5 seconds
+                if self.debug_screenshots:
+                    current_time = time.time()
+                    if current_time - self.last_screenshot_time > self.screenshot_interval:
+                        try:
+                            self.screenshot_count += 1
+                            timestamp = datetime.now().strftime("%H%M%S")
+                            filename = f"debug_{timestamp}_{self.screenshot_count:04d}.png"
+                            filepath = self.screenshot_dir / filename
+                            
+                            # Take screenshot
+                            screenshot = pyautogui.screenshot()
+                            
+                            # Convert to PIL Image for drawing
+                            from PIL import ImageDraw, ImageFont
+                            draw = ImageDraw.Draw(screenshot)
+                            
+                            # Try to find each button and draw box around it
+                            buttons_found = []
+                            confidence = self.config.get("settings", {}).get("confidence", 0.8)
+                            
+                            for btn_name, btn_config in self.config.get("buttons", {}).items():
+                                image_file = btn_config.get("image", "")
+                                image_path = ASSETS_DIR / image_file
+                                
+                                if image_path.exists():
+                                    try:
+                                        location = pyautogui.locate(
+                                            str(image_path),
+                                            screenshot,
+                                            confidence=confidence
+                                        )
+                                        if location:
+                                            # Draw green box around found button
+                                            x, y, w, h = location
+                                            draw.rectangle(
+                                                [x, y, x + w, y + h],
+                                                outline="lime",
+                                                width=3
+                                            )
+                                            # Draw label
+                                            draw.text(
+                                                (x, y - 20),
+                                                f"✓ {btn_name}",
+                                                fill="lime"
+                                            )
+                                            buttons_found.append(btn_name)
+                                    except Exception:
+                                        pass
+                            
+                            # Draw info text at top
+                            info_text = f"Found: {', '.join(buttons_found) if buttons_found else 'None'}"
+                            draw.rectangle([0, 0, 500, 30], fill="black")
+                            draw.text((10, 5), info_text, fill="white")
+                            
+                            screenshot.save(str(filepath))
+                            log(f"📸 Debug screenshot: {filename} | Found: {buttons_found}", self.config)
+                            self.last_screenshot_time = current_time
+                        except Exception as e:
+                            log(f"⚠️ Screenshot error: {e}", self.config)
                 
                 time.sleep(self.check_interval)
                 

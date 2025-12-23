@@ -1,13 +1,13 @@
 # 🤖 Antigravity Auto-Permission Tool v3.0
 
-## Chat-Controlled Button Automation
+## File-Controlled Button Automation
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                                                                 │
-│   📝 Type in Antigravity Chat  ──►  🔍 Tool Reads It  ──►  🖱️ Auto-Click │
+│   � Edit allowed_buttons.txt  ──►  🔍 Tool Reads It  ──►  🖱️ Auto-Click │
 │                                                                 │
-│   Example: "confirm, accept"   ──►   OCR Detection   ──►  Buttons Clicked │
+│   Example: "confirm, accept"   ──►   File Detected   ──►  Buttons Clicked │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -18,7 +18,7 @@
 
 > **Problem**: Antigravity shows permission dialogs. You want SOME buttons auto-clicked, others skipped.
 >
-> **Solution**: Type button names in Antigravity's chat → Only those buttons auto-click!
+> **Solution**: Edit `allowed_buttons.txt` → Only those buttons auto-click!
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
@@ -26,10 +26,10 @@
 ├──────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │  ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐    │
-│  │  Antigravity    │     │   This Tool     │     │   Permission    │    │
-│  │  Chat Input     │────▶│   Reads Chat    │────▶│   Auto-Clicked  │    │
-│  │                 │     │   via OCR       │     │                 │    │
-│  │ "confirm"       │     │   Detects:      │     │   ✅ Confirm    │    │
+│  │ allowed_buttons │     │   This Tool     │     │   Permission    │    │
+│  │     .txt        │────▶│   Reads File    │────▶│   Auto-Clicked  │    │
+│  │                 │     │   Every 2 sec   │     │                 │    │
+│  │ confirm         │     │   Detects:      │     │   ✅ Confirm    │    │
 │  │                 │     │   - confirm     │     │   ⏸️ Accept     │    │
 │  └─────────────────┘     └─────────────────┘     └─────────────────┘    │
 │                                                                          │
@@ -38,15 +38,15 @@
 
 ---
 
-## � Quick Start (3 Steps)
+## 🚀 Quick Start (3 Steps)
 
 ```
 Step 1                    Step 2                    Step 3
 ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
 │                  │     │                  │     │                  │
-│  Run the .exe    │────▶│  Press 1 to      │────▶│  Type buttons    │
-│                  │     │  Start Monitor   │     │  in AG chat      │
-│                  │     │                  │     │                  │
+│  Run the .exe    │────▶│  Press 1 to      │────▶│  Edit the file   │
+│                  │     │  Start Monitor   │     │  allowed_buttons │
+│                  │     │                  │     │  .txt            │
 └──────────────────┘     └──────────────────┘     └──────────────────┘
                                                          │
                                                          ▼
@@ -59,17 +59,32 @@ Step 1                    Step 2                    Step 3
 
 ---
 
-## 💬 Chat Input Examples
+## � allowed_buttons.txt
 
-| You Type in Chat | What Happens |
-|------------------|--------------|
+This is the **key file** you edit to control which buttons get auto-clicked.
+
+### File Location
+```
+Portable_Package_v3/allowed_buttons.txt
+```
+
+### How to Edit
+1. Open the file in any text editor (Notepad, VS Code, etc.)
+2. Write button names (one per line or comma-separated)
+3. Save the file
+4. The tool picks up changes within 2 seconds!
+
+### Examples
+
+| What You Write | What Happens |
+|----------------|--------------|
 | `confirm` | ✅ Only Confirm buttons auto-click |
 | `confirm, accept` | ✅ Both Confirm AND Accept auto-click |
 | `alt + enter` | ✅ Accept buttons auto-click |
 | `deny, reject` | ✅ Deny & Reject buttons auto-click |
 | *(leave empty)* | ⚙️ Uses config.json default settings |
 
-### Supported Aliases
+### Supported Button Names
 
 ```
 ┌──────────────────────────────────────────────────────┐
@@ -100,7 +115,7 @@ Step 1                    Step 2                    Step 3
 ║  4 │ ⚙️  Configure Buttons     ← Change button actions     ║
 ║  5 │ ➕ Add New Button        ← Add custom buttons        ║
 ║  6 │ 📸 Capture Button Image  ← Screenshot new buttons    ║
-║  7 │ 💬 Toggle Chat Mode      ← Enable/Disable chat ctrl  ║
+║  7 │ 💬 Toggle File Mode      ← Enable/Disable file ctrl  ║
 ║  8 │ 📂 Open config.json      ← Edit config file          ║
 ║  9 │ 🚪 Exit                                               ║
 ║                                                            ║
@@ -109,7 +124,7 @@ Step 1                    Step 2                    Step 3
 
 ---
 
-## � Feature 1: Auto-Monitor (Option 1)
+## 🔍 Feature 1: Auto-Monitor (Option 1)
 
 The **main feature** - watches your screen and auto-clicks buttons.
 
@@ -118,19 +133,18 @@ The **main feature** - watches your screen and auto-clicks buttons.
 │                    AUTO-MONITOR FLOW                    │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
-│  1. Scans screen every 0.5 seconds                      │
-│  2. Reads Antigravity chat for button names             │
-│  3. Looks for matching button images on screen          │
-│  4. Clicks buttons that match chat input                │
+│  1. Reads allowed_buttons.txt every 2 seconds           │
+│  2. Scans screen for button images                      │
+│  3. Clicks buttons that match file content              │
 │                                                         │
-│  ┌─────────────┐                                        │
-│  │ Screen Scan │──▶ Found "Confirm" button              │
-│  └─────────────┘           │                            │
-│                            ▼                            │
-│  ┌─────────────┐   ┌──────────────┐   ┌───────────┐    │
-│  │ Chat says:  │──▶│ "confirm"    │──▶│ ✅ CLICK! │    │
-│  │ "confirm"   │   │ matches!     │   └───────────┘    │
-│  └─────────────┘   └──────────────┘                     │
+│  ┌─────────────────┐                                    │
+│  │ Screen Scan     │──▶ Found "Confirm" button          │
+│  └─────────────────┘           │                        │
+│                                ▼                        │
+│  ┌─────────────────┐   ┌──────────────┐   ┌───────────┐ │
+│  │ File says:      │──▶│ "confirm"    │──▶│ ✅ CLICK! │ │
+│  │ "confirm"       │   │ matches!     │   └───────────┘ │
+│  └─────────────────┘   └──────────────┘                 │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -139,106 +153,19 @@ The **main feature** - watches your screen and auto-clicks buttons.
 
 ---
 
-## 💬 Feature 2: Chat Mode (Option 7)
-
-Toggle and configure how the tool reads your chat input.
-
-```
-┌──────────────────────────────────────────────────────────┐
-│                  CHAT MODE SETTINGS                      │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  enabled: true/false                                     │
-│  ├── true  = Read chat, only click typed buttons        │
-│  └── false = Ignore chat, use config.json actions       │
-│                                                          │
-│  window_title: "Antigravity"                             │
-│  └── Which window to look for                            │
-│                                                          │
-│  refresh_interval: 2.0 seconds                           │
-│  └── How often to re-read the chat                       │
-│                                                          │
-│  fallback_to_config: true/false                          │
-│  ├── true  = Empty chat → use config.json defaults      │
-│  └── false = Empty chat → skip everything               │
-│                                                          │
-└──────────────────────────────────────────────────────────┘
-```
-
----
-
-## 🎹 Feature 3: Hotkey Mode (Option 2)
-
-Manual control with keyboard shortcuts.
-
-```
-┌────────────────────────────────────────────┐
-│            HOTKEY MODE                     │
-├────────────────────────────────────────────┤
-│                                            │
-│  Ctrl+Shift+Y  ──▶  Approve (Alt+Enter)   │
-│  Ctrl+Shift+N  ──▶  Deny (Escape)         │
-│  Ctrl+Shift+Q  ──▶  Quit hotkey mode      │
-│                                            │
-└────────────────────────────────────────────┘
-```
-
----
-
-## ⚙️ Feature 4: Configure Buttons (Option 4)
-
-Set default actions for each button when chat is empty.
-
-```
-┌───────────────────────────────────────────────────────────┐
-│                    BUTTON ACTIONS                         │
-├───────────────────────────────────────────────────────────┤
-│                                                           │
-│  Action      │  Symbol  │  What Happens                  │
-│  ────────────┼──────────┼─────────────────────────────── │
-│  approve     │    ✅    │  Auto-click when found         │
-│  deny        │    ❌    │  Auto-click deny button        │
-│  skip        │    ⏸️    │  Ignore (manual decision)      │
-│                                                           │
-└───────────────────────────────────────────────────────────┘
-```
-
----
-
-## 📸 Feature 5: Capture Button (Option 6)
-
-Take screenshots of buttons for detection.
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                 CAPTURE BUTTON STEPS                    │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  1. Make the button visible on your screen              │
-│  2. Select Option 6 from menu                           │
-│  3. Enter a filename (e.g., "mybutton.png")            │
-│  4. Move cursor to the button center                    │
-│  5. Wait 3 seconds for capture                          │
-│  6. Enter button dimensions (width, height)             │
-│                                                         │
-│  ✅ Image saved to assets/ folder                       │
-│                                                         │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-## 📁 Package Contents
+## � Package Contents
 
 ```
 Portable_Package_v3/
 │
 ├── 📦 AntigravityAutoPermit.exe   ← Run this!
 │
+├── 📄 allowed_buttons.txt          ← EDIT THIS to control buttons!
+│
 ├── 📄 config.json                  ← Settings file
 │   ├── buttons: Define button images & default actions
 │   ├── settings: Scan interval, cooldown, confidence
-│   └── chat_input_mode: Chat reading settings
+│   └── chat_input_mode: File reading settings
 │
 ├── 📖 USER_MANUAL.md               ← You are here!
 │
@@ -247,9 +174,7 @@ Portable_Package_v3/
     ├── accept.png
     ├── deny.png
     ├── reject.png
-    ├── accept_reject.png
-    ├── deny_confirm.png
-    └── accept_alt.png
+    └── ...
 ```
 
 ---
@@ -261,7 +186,7 @@ Portable_Package_v3/
   "buttons": {
     "confirm": {
       "image": "confirm.png",     // Image file in assets/
-      "action": "approve",        // approve | deny | skip
+      "action": "approve",        // Default when file is empty
       "description": "Blue Confirm button"
     }
   },
@@ -270,37 +195,15 @@ Portable_Package_v3/
     "check_interval": 0.5,        // Scan every 0.5 seconds
     "action_delay": 0.3,          // Wait before clicking
     "cooldown": 2.0,              // Wait between clicks
-    "confidence": 0.8,            // Image match accuracy (0-1)
-    "sound_alert_on_skip": true   // Beep when skipping
+    "confidence": 0.8             // Image match accuracy (0-1)
   },
   
   "chat_input_mode": {
-    "enabled": true,              // Enable chat reading
-    "window_title": "Antigravity",// Window to find
-    "refresh_interval": 2.0,      // Re-read chat every 2 sec
-    "fallback_to_config": true    // Empty chat = use defaults
+    "enabled": true,              // Enable file reading
+    "refresh_interval": 2.0,      // Re-read file every 2 sec
+    "fallback_to_config": true    // Empty file = use defaults
   }
 }
-```
-
----
-
-## ⚠️ Requirements
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  For Chat Mode to work, you need:                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  1. Tesseract OCR installed on your system                  │
-│     Download: github.com/UB-Mannheim/tesseract/wiki        │
-│                                                             │
-│  2. Antigravity window must be visible (not minimized)      │
-│                                                             │
-│  3. Button images must match what's on your screen          │
-│     (Use Option 6 to recapture if buttons look different)  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -309,28 +212,11 @@ Portable_Package_v3/
 
 | Problem | Solution |
 |---------|----------|
-| Chat mode not reading text | Install Tesseract OCR |
+| File changes not detected | Wait 2 seconds, check file saved |
 | Buttons not detected | Recapture images (Option 6) |
 | Wrong button clicked | Lower `confidence` in config |
 | Too many clicks | Increase `cooldown` value |
-| Clicks too slow | Decrease `action_delay` |
 
 ---
 
-## 📊 Session Stats
-
-After stopping the monitor (Ctrl+C), you'll see:
-
-```
-═══════════════════════════════════════
-  📊 SESSION STATS
-═══════════════════════════════════════
-  ✅ Approved: 12
-  ❌ Denied:   3
-  ⏸️ Skipped:  5
-═══════════════════════════════════════
-```
-
----
-
-*Antigravity Auto-Permission Tool v3.0 - Chat-Controlled Edition* 🚀
+*Antigravity Auto-Permission Tool v3.0 - File-Controlled Edition* 🚀

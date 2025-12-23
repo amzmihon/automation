@@ -33,12 +33,20 @@
     }
   },
   "settings": {
-    "check_interval": 0.5,
+    "check_interval": 0.3,
     "action_delay": 0.3,
     "cooldown": 2.0,
     "log_actions": true,
     "sound_alert_on_skip": true,
-    "confidence": 0.8
+    "confidence": 0.6,
+    "search_region": {
+      "enabled": true,
+      "x": 520,
+      "y": 0,
+      "width": 500,
+      "height": 1080,
+      "_comment": "Only search in this screen region (right side where Antigravity panel is)"
+    }
   },
   "chat_input_mode": {
     "enabled": true,

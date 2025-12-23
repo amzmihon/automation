@@ -1,0 +1,183 @@
+[2025-12-23 14:44:20] Started FILE-CONTROLLED monitoring
+[2025-12-23 14:44:41] Started FILE-CONTROLLED monitoring
+[2025-12-23 14:50:03] Started FILE-CONTROLLED monitoring
+[2025-12-23 14:53:07] Started FILE-CONTROLLED monitoring
+[2025-12-23 14:53:30] Started FILE-CONTROLLED monitoring
+[2025-12-23 15:03:05] Started FILE-CONTROLLED monitoring
+[2025-12-23 15:03:05] 📸 Debug screenshot saved: debug_150305_0001.png
+[2025-12-23 15:03:10] 📸 Debug screenshot saved: debug_150310_0002.png
+[2025-12-23 15:03:16] 📸 Debug screenshot saved: debug_150316_0003.png
+[2025-12-23 15:03:21] 📸 Debug screenshot saved: debug_150321_0004.png
+[2025-12-23 15:03:26] 📸 Debug screenshot saved: debug_150326_0005.png
+[2025-12-23 15:03:32] 📸 Debug screenshot saved: debug_150332_0006.png
+[2025-12-23 15:03:37] 📸 Debug screenshot saved: debug_150337_0007.png
+[2025-12-23 15:03:42] 📸 Debug screenshot saved: debug_150342_0008.png
+[2025-12-23 15:15:43] Started FILE-CONTROLLED monitoring
+[2025-12-23 15:15:44] 📸 Debug screenshot: debug_151543_0001.png | Found: []
+[2025-12-23 15:15:49] 📸 Debug screenshot: debug_151549_0002.png | Found: []
+[2025-12-23 15:15:54] 📸 Debug screenshot: debug_151554_0003.png | Found: []
+[2025-12-23 15:15:59] 📸 Debug screenshot: debug_151559_0004.png | Found: []
+[2025-12-23 15:16:04] 📸 Debug screenshot: debug_151604_0005.png | Found: []
+[2025-12-23 15:16:10] 📸 Debug screenshot: debug_151609_0006.png | Found: []
+[2025-12-23 15:16:15] 📸 Debug screenshot: debug_151615_0007.png | Found: []
+[2025-12-23 15:24:30] Started FILE-CONTROLLED monitoring
+[2025-12-23 15:24:31] 📸 Debug screenshot: debug_152430_0001.png | Found: []
+[2025-12-23 15:24:36] 📸 Debug screenshot: debug_152436_0002.png | Found: []
+[2025-12-23 15:24:41] 📸 Debug screenshot: debug_152441_0003.png | Found: []
+[2025-12-23 15:24:46] 📸 Debug screenshot: debug_152446_0004.png | Found: []
+[2025-12-23 15:25:21] Started FILE-CONTROLLED monitoring
+[2025-12-23 15:25:21] 📸 Debug screenshot: debug_152521_0001.png | Found: []
+[2025-12-23 15:25:26] 📸 Debug screenshot: debug_152526_0002.png | Found: []
+[2025-12-23 15:25:31] 📸 Debug screenshot: debug_152531_0003.png | Found: []
+[2025-12-23 15:30:03] Started FILE-CONTROLLED monitoring
+[2025-12-23 15:30:03] 📸 Debug screenshot: debug_153003_0001.png | Found: []
+[2025-12-23 15:30:08] 📸 Debug screenshot: debug_153008_0002.png | Found: []
+[2025-12-23 15:30:13] 📸 Debug screenshot: debug_153013_0003.png | Found: []
+[2025-12-23 15:30:19] 📸 Debug screenshot: debug_153018_0004.png | Found: []
+[2025-12-23 15:38:21] Started FILE-CONTROLLED monitoring
+[2025-12-23 15:38:22] 📸 Debug screenshot: debug_153821_0001.png | Found: []
+[2025-12-23 15:38:27] 📸 Debug screenshot: debug_153827_0002.png | Found: []
+[2025-12-23 15:38:32] 📸 Debug screenshot: debug_153832_0003.png | Found: []
+[2025-12-23 15:38:37] 📸 Debug screenshot: debug_153837_0004.png | Found: []
+[2025-12-23 16:01:55] Started FILE-CONTROLLED monitoring
+[2025-12-23 16:02:10] 🖱️ Clicked [confirm] at (1636, 22)
+[2025-12-23 16:02:10] 📸 Debug screenshot: debug_160210_0001.png | Found: []
+[2025-12-23 16:02:55] 🖱️ Clicked [reject] at (249, 24)
+[2025-12-23 16:02:56] 📸 Debug screenshot: debug_160255_0002.png | Found: []
+[2025-12-23 16:03:12] 🖱️ Clicked [confirm] at (1783, 388)
+[2025-12-23 16:03:12] 📸 Debug screenshot: debug_160312_0003.png | Found: []
+[2025-12-23 16:03:28] 🖱️ Clicked [confirm] at (1834, 883)
+[2025-12-23 16:03:28] 📸 Debug screenshot: debug_160328_0004.png | Found: []
+[2025-12-23 16:04:08] 🖱️ Clicked [reject] at (1680, 1050)
+[2025-12-23 16:04:08] 📸 Debug screenshot: debug_160408_0005.png | Found: []
+[2025-12-23 16:04:49] 🖱️ Clicked [reject] at (1680, 1050)
+[2025-12-23 16:04:49] 📸 Debug screenshot: debug_160449_0006.png | Found: []
+[2025-12-23 16:05:32] 🖱️ Clicked [reject] at (1680, 1050)
+[2025-12-23 16:05:33] 📸 Debug screenshot: debug_160532_0007.png | Found: []
+[2025-12-23 16:06:14] 🖱️ Clicked [reject] at (1680, 1050)
+[2025-12-23 16:06:14] 📸 Debug screenshot: debug_160614_0008.png | Found: []
+[2025-12-23 16:07:06] 🖱️ Clicked [reject] at (249, 24)
+[2025-12-23 16:07:06] 📸 Debug screenshot: debug_160706_0009.png | Found: []
+[2025-12-23 16:07:22] 🖱️ Clicked [confirm] at (1834, 883)
+[2025-12-23 16:07:22] 📸 Debug screenshot: debug_160722_0010.png | Found: []
+[2025-12-23 16:08:05] 🖱️ Clicked [reject] at (1680, 1050)
+[2025-12-23 16:08:05] 📸 Debug screenshot: debug_160805_0011.png | Found: []
+[2025-12-23 16:09:03] 🖱️ Clicked [reject] at (249, 24)
+[2025-12-23 16:09:03] 📸 Debug screenshot: debug_160903_0012.png | Found: []
+[2025-12-23 16:09:19] 🖱️ Clicked [confirm] at (1834, 883)
+[2025-12-23 16:09:19] 📸 Debug screenshot: debug_160919_0013.png | Found: []
+[2025-12-23 16:09:43] 🖱️ Clicked [confirm] at (1774, 682)
+[2025-12-23 16:09:43] 📸 Debug screenshot: debug_160943_0014.png | Found: []
+[2025-12-23 16:10:26] 🖱️ Clicked [reject] at (1713, 723)
+[2025-12-23 16:10:26] 📸 Debug screenshot: debug_161026_0015.png | Found: []
+[2025-12-23 16:11:08] 🖱️ Clicked [reject] at (249, 24)
+[2025-12-23 16:11:09] 📸 Debug screenshot: debug_161108_0016.png | Found: []
+[2025-12-23 16:14:55] Started FILE-CONTROLLED monitoring
+[2025-12-23 16:14:56] 📸 Debug screenshot: debug_161455_0001.png | Found: []
+[2025-12-23 16:15:01] 📸 Debug screenshot: debug_161501_0002.png | Found: []
+[2025-12-23 16:15:06] 📸 Debug screenshot: debug_161506_0003.png | Found: []
+[2025-12-23 16:15:11] 📸 Debug screenshot: debug_161511_0004.png | Found: []
+[2025-12-23 16:15:16] 📸 Debug screenshot: debug_161516_0005.png | Found: []
+[2025-12-23 16:15:22] 📸 Debug screenshot: debug_161521_0006.png | Found: []
+[2025-12-23 16:15:27] 📸 Debug screenshot: debug_161527_0007.png | Found: []
+[2025-12-23 16:15:32] 📸 Debug screenshot: debug_161532_0008.png | Found: []
+[2025-12-23 16:17:25] Started FILE-CONTROLLED monitoring
+[2025-12-23 16:17:40] 🖱️ Clicked [confirm] at (1792, 682)
+[2025-12-23 16:17:57] 🖱️ Clicked [confirm] at (1834, 883)
+[2025-12-23 16:18:40] 🖱️ Clicked [reject] at (1680, 1050)
+[2025-12-23 16:18:58] 🖱️ Clicked [confirm] at (1774, 700)
+[2025-12-23 16:19:14] 🖱️ Clicked [confirm] at (1834, 883)
+[2025-12-23 16:19:30] 🖱️ Clicked [confirm] at (1777, 724)
+[2025-12-23 16:20:10] 🖱️ Clicked [reject] at (1680, 1050)
+[2025-12-23 16:20:27] 🖱️ Clicked [confirm] at (1777, 409)
+[2025-12-23 16:21:19] 🖱️ Clicked [reject] at (1680, 1050)
+[2025-12-23 16:21:41] 🖱️ Clicked [confirm] at (1792, 730)
+[2025-12-23 16:27:34] Started FILE-CONTROLLED monitoring
+[2025-12-23 16:27:55] 🖱️ Clicked [confirm] at (1774, 682)
+[2025-12-23 16:28:17] 🖱️ Clicked [confirm] at (1834, 883)
+[2025-12-23 16:29:12] 🖱️ Clicked [reject] at (1680, 1050)
+[2025-12-23 16:31:00] Started FILE-CONTROLLED monitoring
+[2025-12-23 16:31:45] 🖱️ Clicked [reject] at (966, 141)
+[2025-12-23 16:32:08] 🖱️ Clicked [confirm] at (1792, 730)
+[2025-12-23 16:33:02] 🖱️ Clicked [reject] at (1563, 24)
+[2025-12-23 16:33:42] 🖱️ Clicked [reject] at (969, 981)
+[2025-12-23 16:34:23] 🖱️ Clicked [reject] at (1860, 357)
+[2025-12-23 16:34:39] 🖱️ Clicked [confirm] at (1828, 598)
+[2025-12-23 16:34:55] 🖱️ Clicked [confirm] at (1837, 859)
+[2025-12-23 16:35:11] 🖱️ Clicked [confirm] at (1837, 859)
+[2025-12-23 16:35:51] 🖱️ Clicked [reject] at (1860, 357)
+[2025-12-23 16:36:07] 🖱️ Clicked [confirm] at (1834, 883)
+[2025-12-23 16:36:23] 🖱️ Clicked [confirm] at (1804, 757)
+[2025-12-23 16:37:04] 🖱️ Clicked [reject] at (483, 630)
+[2025-12-23 16:37:21] 🖱️ Clicked [confirm] at (1804, 757)
+[2025-12-23 16:38:01] 🖱️ Clicked [reject] at (483, 630)
+[2025-12-23 16:46:51] Started FILE-CONTROLLED monitoring
+[2025-12-23 16:47:12] 🖱️ Clicked [reject] at (1491, 126)
+[2025-12-23 16:47:25] Started FILE-CONTROLLED monitoring
+[2025-12-23 16:47:49] 🖱️ Clicked [reject] at (969, 981)
+[2025-12-23 16:48:05] 🖱️ Clicked [confirm] at (1774, 727)
+[2025-12-23 16:48:44] 🖱️ Clicked [reject] at (1713, 744)
+[2025-12-23 16:49:23] 🖱️ Clicked [reject] at (966, 141)
+[2025-12-23 16:50:03] 🖱️ Clicked [reject] at (969, 981)
+[2025-12-23 16:50:38] 🖱️ Clicked [reject] at (1683, 24)
+[2025-12-23 16:51:10] 🖱️ Clicked [reject] at (972, 126)
+[2025-12-23 16:51:32] 🖱️ Clicked [reject] at (972, 126)
+[2025-12-23 16:58:14] Started FILE-CONTROLLED monitoring
+[2025-12-23 16:58:47] 🖱️ Clicked [reject] at (648, 510)
+[2025-12-23 16:59:21] 🖱️ Clicked [reject] at (327, 24)
+[2025-12-23 17:00:03] 🖱️ Clicked [reject] at (345, 63)
+[2025-12-23 17:00:52] 🖱️ Clicked [reject] at (969, 981)
+[2025-12-23 17:01:30] 🖱️ Clicked [reject] at (1863, 135)
+[2025-12-23 17:02:07] 🖱️ Clicked [reject] at (966, 141)
+[2025-12-23 17:02:47] 🖱️ Clicked [reject] at (969, 981)
+[2025-12-23 17:03:26] 🖱️ Clicked [reject] at (966, 141)
+[2025-12-23 17:04:10] 🖱️ Clicked [reject] at (915, 141)
+[2025-12-23 17:04:50] 🖱️ Clicked [reject] at (915, 141)
+[2025-12-23 17:05:06] 🖱️ Clicked [confirm] at (1792, 685)
+[2025-12-23 17:05:49] 🖱️ Clicked [reject] at (969, 981)
+[2025-12-23 17:06:05] 🖱️ Clicked [confirm] at (1792, 730)
+[2025-12-23 17:06:21] 🖱️ Clicked [confirm] at (1792, 730)
+[2025-12-23 17:07:02] 🖱️ Clicked [reject] at (966, 141)
+[2025-12-23 17:07:46] 🖱️ Clicked [reject] at (969, 981)
+[2025-12-23 17:08:03] 🖱️ Clicked [confirm] at (1792, 730)
+[2025-12-23 17:08:17] 🖱️ Clicked [confirm] at (1792, 730)
+[2025-12-23 17:08:58] 🖱️ Clicked [reject] at (966, 141)
+[2025-12-23 17:09:12] 🖱️ Clicked [confirm] at (1774, 727)
+[2025-12-23 17:09:50] 🖱️ Clicked [reject] at (1818, 894)
+[2025-12-23 17:10:27] 🖱️ Clicked [reject] at (1731, 687)
+[2025-12-23 17:11:05] 🖱️ Clicked [reject] at (969, 981)
+[2025-12-23 17:11:42] 🖱️ Clicked [reject] at (966, 141)
+[2025-12-23 17:12:21] 🖱️ Clicked [reject] at (1602, 948)
+[2025-12-23 17:12:57] 🖱️ Clicked [reject] at (534, 582)
+[2025-12-23 17:13:12] 🖱️ Clicked [confirm] at (52, 790)
+[2025-12-23 17:13:26] 🖱️ Clicked [confirm] at (52, 790)
+[2025-12-23 17:14:05] 🖱️ Clicked [reject] at (525, 129)
+[2025-12-23 17:14:20] 🖱️ Clicked [confirm] at (52, 790)
+[2025-12-23 17:14:34] 🖱️ Clicked [confirm] at (1792, 730)
+[2025-12-23 17:15:13] 🖱️ Clicked [reject] at (969, 981)
+[2025-12-23 17:15:28] 🖱️ Clicked [confirm] at (1783, 730)
+[2025-12-23 17:16:11] 🖱️ Clicked [reject] at (249, 24)
+[2025-12-23 17:16:26] 🖱️ Clicked [confirm] at (1822, 682)
+[2025-12-23 17:16:41] 🖱️ Clicked [confirm] at (1822, 484)
+[2025-12-23 17:16:57] 🖱️ Clicked [confirm] at (589, 373)
+[2025-12-23 17:17:11] 🖱️ Clicked [confirm] at (589, 625)
+[2025-12-23 17:17:25] 🖱️ Clicked [confirm] at (589, 625)
+[2025-12-23 17:17:39] 🖱️ Clicked [confirm] at (589, 625)
+[2025-12-23 17:17:54] 🖱️ Clicked [confirm] at (589, 625)
+[2025-12-23 17:18:30] 🖱️ Clicked [reject] at (249, 24)
+[2025-12-23 17:18:44] 🖱️ Clicked [confirm] at (589, 625)
+[2025-12-23 17:19:21] 🖱️ Clicked [reject] at (531, 612)
+[2025-12-23 17:19:35] 🖱️ Clicked [confirm] at (589, 625)
+[2025-12-23 17:20:10] 🖱️ Clicked [reject] at (1308, 24)
+[2025-12-23 17:20:24] 🖱️ Clicked [confirm] at (1834, 883)
+[2025-12-23 17:21:00] 🖱️ Clicked [reject] at (309, 645)
+[2025-12-23 17:21:37] 🖱️ Clicked [reject] at (321, 381)
+[2025-12-23 17:21:51] 🖱️ Clicked [confirm] at (1774, 682)
+[2025-12-23 17:22:27] 🖱️ Clicked [reject] at (1713, 723)
+[2025-12-23 17:22:41] 🖱️ Clicked [confirm] at (1834, 883)
+[2025-12-23 17:23:17] 🖱️ Clicked [reject] at (309, 645)
+[2025-12-23 17:23:53] 🖱️ Clicked [reject] at (636, 927)
+[2025-12-23 17:24:29] 🖱️ Clicked [reject] at (261, 981)
+[2025-12-23 17:25:05] 🖱️ Clicked [reject] at (117, 120)
+[2025-12-23 17:25:40] 🖱️ Clicked [reject] at (117, 120)
+[2025-12-23 17:26:06] 🖱️ Clicked [reject] at (1619, 254)
