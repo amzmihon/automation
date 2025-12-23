@@ -1,5 +1,5 @@
 {
-  "_comment": "Per-button configuration - set each button's action independently",
+  "_comment": "Per-button configuration with Chat Input Mode for dynamic control",
   "buttons": {
     "confirm": {
       "image": "confirm.png",
@@ -39,6 +39,13 @@
     "log_actions": true,
     "sound_alert_on_skip": true,
     "confidence": 0.8
+  },
+  "chat_input_mode": {
+    "enabled": true,
+    "window_title": "Antigravity",
+    "input_region": null,
+    "refresh_interval": 2.0,
+    "fallback_to_config": true
   },
   "hotkeys": {
     "approve": "ctrl+shift+y",
